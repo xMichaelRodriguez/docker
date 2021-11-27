@@ -2,11 +2,11 @@ const {Schema,model} =require('mongoose')
 const userSchema = new Schema({
   nombre: {
     type: String,
-    required: [true, "First name is required"],
+    required: [true, "nombre es requerido"],
   },
   codigo: {
     type: String,
-    required: [true, "Last name is required"],
+    required: [true, "codigo es requerido"],
   }
 });
-module.exports=model('user',userSchema)
+module.exports=model('User',userSchema)
