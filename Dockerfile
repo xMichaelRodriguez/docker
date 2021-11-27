@@ -1,4 +1,4 @@
-FROM node:14
+FROM node
 
 RUN mkdir -p /usr/src/app
 
