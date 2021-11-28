@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
                 });
             });
 
-            User.find((err, uss) => {
+            User.find((err, users) => {
                 if (err) {
                     return res.statusCode(400).json({
                         err
@@ -52,7 +52,7 @@ router.get('/', (req, res) => {
 
                 res.render('index.ejs', {
                     path: "Users",
-                    uss
+                    users
                 });
             });
 
