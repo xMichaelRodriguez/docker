@@ -2,14 +2,62 @@ const {
     Router
 } = require('express');
 const router = Router();
-const User = require('../models/user')
+const User = require('../models/user');
 router.get('/', (req, res) => {
     User.find((err, users) => {
         if (err) {
-            return res.statusCode(400).json({err})
+            return res.statusCode(400).json({
+                err
+            });
         }
-        res.render('index.ejs', { path: "Users", users })
-    })
+
+        if (users.length != 0) {
+            res.render('index.ejs', {
+                path: "Users",
+                users
+            });
+        } else {
+            const usuarios = [{
+                nombre: "Michael Scott Lovo Rodriguez",
+                codigo: "USIS013818"
+            }, {
+                nombre: "Melissa Estefania Diaz Orellana",
+                codigo: "USIS038918"
+            }, {
+                nombre: "Laura Maria Rivas Guerrero",
+                codigo: "USIS053818"
+            }, {
+                nombre: "Jimmy Edgardo Martinez",
+                codigo: "USIS000718"
+            }, {
+                nombre: "Roberto Carlos Arguera Campos",
+                codigo: "USIS008718"
+            }];
+
+            usuarios.forEach(element => {
+                const local = new User(element);
+                local.save((err) => {
+                    if (err) {
+                        console.log("Error al Guardar el usuario");
+                    }
+                });
+            });
+
+            User.find((err, uss) => {
+                if (err) {
+                    return res.statusCode(400).json({
+                        err
+                    });
+                }
+
+                res.render('index.ejs', {
+                    path: "Users",
+                    uss
+                });
+            });
+
+        }
+    });
 });
 
 module.exports = router;
