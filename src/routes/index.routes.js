@@ -1,15 +1,28 @@
 const express = require('express')
 const serveIndex = require('serve-index')
 const path = require('path')
-const sgMail = require('@sendgrid/mail');
+require('dotenv').config()
+const nodeMailer = require('nodemailer')
 
 const {
     Router
 } = require('express');
 const router = Router();
 
-const key = "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";
-sgMail.setApiKey("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");
+const transporter = nodeMailer.createTransport({
+    host: "smtp-relay.sendinblue.com",
+    port: 587,
+    secure: true,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: process.env.HOST,
+        pass: process.env.PASS,
+    },
+
+});
+
+
+
 const User = require('../models/user');
 
 router.get('/', (req, res) => {
@@ -70,9 +83,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-
-    const {mail} = req.body;
-console.log(mail)
+    const { mail } = req.body;
     const msg = {
         to: mail,
         from: 'michael5031rodriguez@gmail.com', // Use the email address or domain you verified above
@@ -80,6 +91,8 @@ console.log(mail)
         text: 'parcial numero 3 sorftware libre',
         html: `
             <strong>
+            <h3>Integrantes del grupo</h3>
+            <hr/>
                 <ul>
                     <li>Michael Scott Lovo Rodriguez USIS013818</li>
                     <li>Melissa Estefania Diaz Orellana USIS038918</li>
@@ -91,7 +104,8 @@ console.log(mail)
     };
 
     try {
-        await sgMail.send(msg);
+        // await sgMail.send(msg);
+        await transporter.sendMail(msg)
         res.redirect('/')
     } catch (error) {
         if (error.response) {
