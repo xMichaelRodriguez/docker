@@ -10,9 +10,9 @@ const {
 const router = Router();
 
 const transporter = nodeMailer.createTransport({
-    host: "smtp-relay.sendinblue.com",
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    host: "smtp.gmail.com",
+     port: 465,
+  secure: true, // use TLS
     auth: {
         user: process.env.HOST,
         pass: process.env.PASS,
@@ -108,7 +108,7 @@ router.post('/', async (req, res) => {
         res.redirect('/')
     } catch (error) {
         if (error.response) {
-            console.error(error.response.body)
+            console.error("RESPONSE",error.response.body)
         }
         console.log(error)
     }
