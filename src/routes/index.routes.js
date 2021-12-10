@@ -11,8 +11,9 @@ const router = Router();
 
 const transporter = nodeMailer.createTransport({
     host: "smtp.gmail.com",
-     port: 465,
-  secure: true, // use TLS
+    port: 465,
+    secure: true,
+   
     auth: {
         user: process.env.HOST,
         pass: process.env.PASS,
@@ -25,6 +26,7 @@ const transporter = nodeMailer.createTransport({
 const User = require('../models/user');
 
 router.get('/', (req, res) => {
+
     User.find((err, users) => {
         if (err) {
             return res.statusCode(400).json({
@@ -32,13 +34,13 @@ router.get('/', (req, res) => {
             });
         }
 
-        if (users.length != 0) {
-            res.render('index.ejs', {
+        if (users.length != 0 ) {
+           return res.render('index.ejs', {
                 path: "Users",
                 users
             });
         } else {
-            const usuarios = [{
+          const usuarios = [{
                 nombre: "Michael Scott Lovo Rodriguez",
                 codigo: "USIS013818"
             }, {
@@ -55,12 +57,14 @@ router.get('/', (req, res) => {
                 codigo: "USIS008718"
             }];
 
+
             usuarios.forEach(element => {
                 const local = new User(element);
                 local.save((err) => {
                     if (err) {
                         console.log("Error al Guardar el usuario");
                     }
+                    console.log('guardado')
                 });
             });
 
@@ -81,15 +85,22 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', async (req, res) => {
+router.get('/smtp', (req, res) => {
+    return res.render('ftp.ejs', {
+        path: "SMTP"
+    });
+});
+
+router.post('/smtp', async (req, res) => {
     const { mail } = req.body;
     const msg = {
         to: mail,
-        from: `${process.env.HOST} < ${process.env.HOST}>`, // Use the email address or domain you verified above
-        subject: 'Enviando mensaje desde servidor de:',
-        text: 'parcial numero 3 sorftware libre',
+        from: process.env.HOST + ` ${process.env.HOST}`, // Use the email address or domain you verified above
+        subject: 'Enviando mensaje SMTP',
+        text: '',
         html: `
             <strong>
+           <p> parcial numero 3 sorftware libre</p>
             <h3>Integrantes del grupo</h3>
             <hr/>
                 <ul>
@@ -108,7 +119,7 @@ router.post('/', async (req, res) => {
         res.redirect('/')
     } catch (error) {
         if (error.response) {
-            console.error("RESPONSE",error.response.body)
+            console.error(error.response.body)
         }
         console.log(error)
     }
@@ -125,3 +136,4 @@ router.use('/ftp-route',
 );
 
 module.exports = router;
+console.log(path.join(process.cwd(), '/src/public'))

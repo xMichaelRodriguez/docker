@@ -1,0 +1,18 @@
+<div class="py-5 container">
+    <ul class="list-group list-group-flush">
+        <li class='list-group-item list-group-item-light'>
+            <h5 class='display-4 d-flex justify-content-center font-weight-bold'>Hecho por</h5>
+        </li>
+        <%users && users.forEach(user=> {%>
+            <li class="card mb-3 p-3  bg-dark d-flex justify-content-around">
+                <h6 class="text-primary">
+                    <%=user.nombre %>
+                </h6>
+                <h6 class="text-light">
+                    <%=user.codigo%>
+                </h6>
+            </li>
+
+            <%}); %>
+    </ul>
+</div>
