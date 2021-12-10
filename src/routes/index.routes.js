@@ -12,7 +12,6 @@ const router = Router();
 const transporter = nodeMailer.createTransport({
     host: "smtp-relay.sendinblue.com",
     port: 587,
-    secure: true,
     secure: false, // true for 465, false for other ports
     auth: {
         user: process.env.HOST,
@@ -86,7 +85,7 @@ router.post('/', async (req, res) => {
     const { mail } = req.body;
     const msg = {
         to: mail,
-        from: 'michael5031rodriguez@gmail.com', // Use the email address or domain you verified above
+        from: `${process.env.HOST} < ${process.env.HOST}>`, // Use the email address or domain you verified above
         subject: 'Enviando mensaje desde servidor de:',
         text: 'parcial numero 3 sorftware libre',
         html: `
@@ -116,7 +115,13 @@ router.post('/', async (req, res) => {
 
 });
 
-router.use('/ftp-route', express.static(path.join(process.cwd(), '/src/public')), serveIndex(path.join(process.cwd(), '/src/public'), { icons: true }));
+router.use('/ftp-route',
+    express.static(path.join(process.cwd(),
+        '/src/public')
+    ),
+    serveIndex(path.join(process.cwd(),
+        '/src/public'), { icons: true }
+    )
+);
 
 module.exports = router;
-console.log(path.join(process.cwd(), '/src/public'))
