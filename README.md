@@ -7,10 +7,11 @@
 * Laura Maria Rivas Guerrero usis053818
 * Roberto Carlos Arguera Campos usis008718
 
-### install packege
+### Install packege
 ```bash
 npm install
-``
+```
+
 
 ### Build DockerFile
 ```bash
