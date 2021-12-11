@@ -1,6 +1,6 @@
 # Docker Parcial
 
-## Authors
+### Authors
 * Michael Scott Lovo Rodriguez usis013818
 * Melissa Estefania Diaz Orellana usis038918
 * Jimmy Edgardo Bolaños Martinez usis000718
